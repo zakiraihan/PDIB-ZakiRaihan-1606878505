@@ -281,143 +281,178 @@
 
     
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}9}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
-        \PY{n}{hmeq} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{hmeq.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-        \PY{n}{hmeq}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{}Look at the head of the data (just the first few rows)}
-\end{Verbatim}
-
-
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}9}]:}    BAD  LOAN  MORTDUE     VALUE   REASON     JOB   YOJ  DEROG  DELINQ  \textbackslash{}
-        0    1  1100  25860.0   39025.0  HomeImp   Other  10.5    0.0     0.0   
-        1    1  1300  70053.0   68400.0  HomeImp   Other     7    0.0     2.0   
-        2    1  1500  13500.0   16700.0  HomeImp   Other     4    0.0     0.0   
-        3    1  1500      NaN       NaN      NaN     NaN   NaN    NaN     NaN   
-        4    0  1700  97800.0  112000.0  HomeImp  Office     3    0.0     0.0   
-        
-                CLAGE  NINQ  CLNO  DEBTINC  Unnamed: 13  Unnamed: 14  Unnamed: 15  \textbackslash{}
-        0   94.366667   1.0   9.0      NaN          NaN          NaN          NaN   
-        1  121.833333   0.0  14.0      NaN          NaN          NaN          NaN   
-        2  149.466667   1.0  10.0      NaN          NaN          NaN          NaN   
-        3         NaN   NaN   NaN      NaN          NaN          NaN          NaN   
-        4   93.333333   0.0  14.0      NaN          NaN          NaN          NaN   
-        
-           Unnamed: 16  
-        0          NaN  
-        1          NaN  
-        2          NaN  
-        3          NaN  
-        4          NaN  
-\end{Verbatim}
-            
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}10}]:} \PY{n}{hmeq\PYZus{}prepared} \PY{o}{=} \PY{n}{hmeq}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unnamed: 13}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unnamed: 14}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unnamed: 15}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unnamed: 16}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
-\end{Verbatim}
-
-
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}11}]:}                BAD          LOAN        MORTDUE         VALUE        DEROG  \textbackslash{}
-         count  5962.000000  5.962000e+03    5444.000000  5.850000e+03  5254.000000   
-         mean      0.201275  1.972605e+04   73756.449706  2.580738e+05     0.259136   
-         std       0.420589  8.597330e+04   44450.895907  1.176907e+07     0.890592   
-         min       0.000000  1.100000e+03    2063.000000 -2.500000e+04     0.000000   
-         25\%       0.000000  1.110000e+04   46292.000000  6.608575e+04     0.000000   
-         50\%       0.000000  1.640000e+04   65019.000000  8.924500e+04     0.000000   
-         75\%       0.000000  2.330000e+04   91482.000000  1.198388e+05     0.000000   
-         max      10.000000  6.600000e+06  399550.000000  9.001400e+08    20.000000   
+{\color{incolor}In [{\color{incolor}43}]:} \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline 
+         \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+         \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+         \PY{k+kn}{import} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{stats} \PY{k}{as} \PY{n+nn}{stats}
+         \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+         \PY{k+kn}{import} \PY{n+nn}{random}
+         \PY{k+kn}{import} \PY{n+nn}{math} 
          
-                     DELINQ        CLAGE         NINQ         CLNO      DEBTINC  
-         count  5382.000000  5654.000000  5452.000000  5740.000000  4695.000000  
-         mean      0.449275   179.738555     1.237366    21.287456    35.185829  
-         std       1.127090    85.853356     3.615545    10.141083    73.596762  
-         min       0.000000     0.000000     0.000000     0.000000   -21.719596  
-         25\%       0.000000   115.089691     0.000000    14.000000    29.136864  
-         50\%       0.000000   173.466667     1.000000    20.000000    34.816960  
-         75\%       0.000000   231.587389     2.000000    26.000000    39.008591  
-         max      15.000000  1168.233561   229.518295    71.000000  4537.512708  
-\end{Verbatim}
-            
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YOJ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}numeric}\PY{p}{(}\PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YOJ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coerce}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Read hmeq.csv file}
+         \PY{n}{hmeq} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{hmeq.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Removing any unnecessary column, because the data were just 13 column, so i assume that column more than 13 were unnecessary}
+         \PY{n}{hmeq\PYZus{}prepared} \PY{o}{=} \PY{n}{hmeq}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unnamed: 13}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unnamed: 14}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unnamed: 15}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unnamed: 16}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Filling any missing data in dataset using their represntative column}
+         \PY{n}{hmeq\PYZus{}prepared} \PY{o}{=} \PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Seeing the first 5 row of data}
          \PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}12}]:}    BAD  LOAN  MORTDUE     VALUE   REASON     JOB   YOJ  DEROG  DELINQ  \textbackslash{}
-         0    1  1100  25860.0   39025.0  HomeImp   Other  10.5    0.0     0.0   
-         1    1  1300  70053.0   68400.0  HomeImp   Other   7.0    0.0     2.0   
-         2    1  1500  13500.0   16700.0  HomeImp   Other   4.0    0.0     0.0   
-         3    1  1500      NaN       NaN      NaN     NaN   NaN    NaN     NaN   
-         4    0  1700  97800.0  112000.0  HomeImp  Office   3.0    0.0     0.0   
+{\color{outcolor}Out[{\color{outcolor}43}]:}    BAD  LOAN       MORTDUE         VALUE   REASON     JOB   YOJ     DEROG  \textbackslash{}
+         0    1  1100  25860.000000   39025.00000  HomeImp   Other  10.5  0.000000   
+         1    1  1300  70053.000000   68400.00000  HomeImp   Other     7  0.000000   
+         2    1  1500  13500.000000   16700.00000  HomeImp   Other     4  0.000000   
+         3    1  1500  73756.449706  258073.78599      NaN     NaN   NaN  0.259136   
+         4    0  1700  97800.000000  112000.00000  HomeImp  Office     3  0.000000   
          
-                 CLAGE  NINQ  CLNO  DEBTINC  
-         0   94.366667   1.0   9.0      NaN  
-         1  121.833333   0.0  14.0      NaN  
-         2  149.466667   1.0  10.0      NaN  
-         3         NaN   NaN   NaN      NaN  
-         4   93.333333   0.0  14.0      NaN  
+              DELINQ       CLAGE      NINQ       CLNO    DEBTINC  
+         0  0.000000   94.366667  1.000000   9.000000  35.185829  
+         1  2.000000  121.833333  0.000000  14.000000  35.185829  
+         2  0.000000  149.466667  1.000000  10.000000  35.185829  
+         3  0.449275  179.738555  1.237366  21.287456  35.185829  
+         4  0.000000   93.333333  0.000000  14.000000  35.185829  
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}13}]:} \PY{n}{hmeq\PYZus{}prepared} \PY{o}{=} \PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-         \PY{n}{hmeq\PYZus{}prepared} \PY{o}{=} \PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}44}]:} \PY{c+c1}{\PYZsh{} Check Unique Value for some catagorical column}
+         \PY{k}{for} \PY{n}{column} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{BAD}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{REASON}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{JOB}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{:}
+             \PY{n+nb}{print} \PY{p}{(}\PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{n}{column}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}14}]:} \PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+[ 1  0  3 10]
+['HomeImp' nan 'DebtCon' 'DebtCons']
+['Other' nan 'Office' 'Sales' 'Mgr' 'ProfExe' 'Self' 'Othe']
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}45}]:} \PY{c+c1}{\PYZsh{} Preparing data, changing catagorycal data into numeric data}
+         
+         \PY{c+c1}{\PYZsh{} Mapping catagorical into numeric}
+         \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{JOB}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{JOB}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Other}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Office}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sales}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mgr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ProfExe}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+m+mi}{4}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Self}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{\PYZcb{}}\PY{p}{)} 
+         \PY{c+c1}{\PYZsh{} Filling any missing data in \PYZdq{}JOB\PYZdq{} variable using 0 (\PYZdq{}i assume it will be other\PYZdq{})}
+         \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{JOB}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{JOB}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)} 
+         
+         \PY{c+c1}{\PYZsh{} Mapping catagorical into numeric}
+         \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{REASON}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{REASON}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HomeImp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DebtCon}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DebtCons}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{2}\PY{p}{\PYZcb{}}\PY{p}{)} 
+         \PY{c+c1}{\PYZsh{} Filling any missing data in \PYZdq{}REASON\PYZdq{} variable using 0 (\PYZdq{}i assume it will be HomeImp\PYZdq{})}
+         \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{REASON}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{REASON}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)} 
+         
+         \PY{c+c1}{\PYZsh{} Clean typo in \PYZdq{}BAD\PYZdq{} variable (there is data that typed 10 instead of 1)}
+         \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BAD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BAD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Clean typo in \PYZdq{}BAD\PYZdq{} variable (there is data that typed 3 instead of 1, i assume they type 3 because the load were bad)}
+         \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BAD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BAD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)} 
+         
+         \PY{c+c1}{\PYZsh{} Seang first 5 data}
+         \PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}14}]:}    BAD  LOAN   MORTDUE      VALUE   REASON     JOB    YOJ  DEROG  DELINQ  \textbackslash{}
-         0    1  1100  25860.00   39025.00  HomeImp   Other  10.50   0.00    0.00   
-         1    1  1300  70053.00   68400.00  HomeImp   Other   7.00   0.00    2.00   
-         2    1  1500  13500.00   16700.00  HomeImp   Other   4.00   0.00    0.00   
-         3    1  1500  73756.45  258073.79      NaN     NaN   8.92   0.26    0.45   
-         4    0  1700  97800.00  112000.00  HomeImp  Office   3.00   0.00    0.00   
+{\color{outcolor}Out[{\color{outcolor}45}]:}    BAD  LOAN       MORTDUE         VALUE  REASON  JOB   YOJ     DEROG  \textbackslash{}
+         0    1  1100  25860.000000   39025.00000     0.0  0.0  10.5  0.000000   
+         1    1  1300  70053.000000   68400.00000     0.0  0.0     7  0.000000   
+         2    1  1500  13500.000000   16700.00000     0.0  0.0     4  0.000000   
+         3    1  1500  73756.449706  258073.78599     1.0  0.0   NaN  0.259136   
+         4    0  1700  97800.000000  112000.00000     0.0  1.0     3  0.000000   
          
-             CLAGE  NINQ   CLNO  DEBTINC  
-         0   94.37  1.00   9.00    35.19  
-         1  121.83  0.00  14.00    35.19  
-         2  149.47  1.00  10.00    35.19  
-         3  179.74  1.24  21.29    35.19  
-         4   93.33  0.00  14.00    35.19  
+              DELINQ       CLAGE      NINQ       CLNO    DEBTINC  
+         0  0.000000   94.366667  1.000000   9.000000  35.185829  
+         1  2.000000  121.833333  0.000000  14.000000  35.185829  
+         2  0.000000  149.466667  1.000000  10.000000  35.185829  
+         3  0.449275  179.738555  1.237366  21.287456  35.185829  
+         4  0.000000   93.333333  0.000000  14.000000  35.185829  
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}16}]:} \PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hmeq\PYZus{}prepared.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{encoding}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}46}]:} \PY{c+c1}{\PYZsh{} Fuction for cleaning outlier from data, it will fill the outlier using median of data}
+         \PY{k}{def} \PY{n+nf}{cleanOutlier}\PY{p}{(}\PY{n}{dataSet}\PY{p}{,} \PY{n}{listColumn}\PY{p}{)}\PY{p}{:}
+             \PY{k}{for} \PY{n}{column} \PY{o+ow}{in} \PY{n}{listColumn}\PY{p}{:}
+                 \PY{n}{Q1} \PY{o}{=} \PY{n}{dataSet}\PY{p}{[}\PY{n}{column}\PY{p}{]}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{l+m+mf}{0.25}\PY{p}{)}
+                 \PY{n}{Q3} \PY{o}{=} \PY{n}{dataSet}\PY{p}{[}\PY{n}{column}\PY{p}{]}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{l+m+mf}{0.75}\PY{p}{)}
+                 \PY{n}{IQR} \PY{o}{=} \PY{n}{Q3}\PY{o}{\PYZhy{}}\PY{n}{Q1}
+                 \PY{n}{outlier} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{dataSet}\PY{p}{[}\PY{n}{column}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{p}{(}\PY{n}{Q1} \PY{o}{\PYZhy{}} \PY{l+m+mf}{1.5} \PY{o}{*} \PY{n}{IQR}\PY{p}{)}\PY{p}{)} \PY{o}{|} \PY{p}{(}\PY{n}{dataSet}\PY{p}{[}\PY{n}{column}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{p}{(}\PY{n}{Q3} \PY{o}{+} \PY{l+m+mf}{1.5} \PY{o}{*} \PY{n}{IQR}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 \PY{n}{dataSet}\PY{p}{[}\PY{n}{outlier}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nan}
+                 \PY{n}{dataSet}\PY{p}{[}\PY{n}{column}\PY{p}{]} \PY{o}{=} \PY{n}{dataSet}\PY{p}{[}\PY{n}{column}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{dataSet}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Normalize the data using MinMaxScaler, so the value of data will around 0\PYZhy{}1}
+         \PY{k}{def} \PY{n+nf}{normalizeDataset}\PY{p}{(}\PY{n}{dataset}\PY{p}{,} \PY{n}{listColumn}\PY{o}{=}\PY{p}{[}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+             \PY{k}{if} \PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{listColumn}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{for} \PY{n}{column} \PY{o+ow}{in} \PY{n}{listColumn}\PY{p}{:}
+                     \PY{n}{max\PYZus{}value} \PY{o}{=} \PY{n}{dataset}\PY{p}{[}\PY{n}{column}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}
+                     \PY{n}{min\PYZus{}value} \PY{o}{=} \PY{n}{dataset}\PY{p}{[}\PY{n}{column}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}
+                     \PY{n}{dataset}\PY{p}{[}\PY{n}{column}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{dataset}\PY{p}{[}\PY{n}{column}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{min\PYZus{}value}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{n}{max\PYZus{}value} \PY{o}{\PYZhy{}} \PY{n}{min\PYZus{}value}\PY{p}{)}
+             \PY{k}{else}\PY{p}{:}
+                 \PY{n}{dataset} \PY{o}{=} \PY{p}{(}\PY{n}{dataset} \PY{o}{\PYZhy{}} \PY{n}{dataset}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{n}{dataset}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}
+                 \PY{n}{dataset} \PY{o}{=} \PY{n}{dataset}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)} 
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}17}]:} \PY{n}{hmeq\PYZus{}new} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{hmeq\PYZus{}prepared.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-         \PY{n}{hmeq\PYZus{}new}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{}Look at the head of the data (just the first few rows)}
+{\color{incolor}In [{\color{incolor}47}]:} \PY{c+c1}{\PYZsh{} Panda read the YOJ variable as \PYZdq{}object\PYZdq{} instead of number, so i changing it into number type}
+         \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YOJ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}numeric}\PY{p}{(}\PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YOJ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coerce}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Fill NaN value of YOJ using mean of YOJ}
+         \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YOJ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YOJ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{hmeq\PYZus{}prepared}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YOJ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Try to clean the data from outlier in any variable}
+         \PY{n}{cleanOutlier}\PY{p}{(}\PY{n}{hmeq\PYZus{}prepared}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LOAN}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MORTDUE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{VALUE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CLNO}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DEBTINC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Seeing the boxplot result}
+         \PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}17}]:}    BAD  LOAN   MORTDUE      VALUE   REASON     JOB    YOJ  DEROG  DELINQ  \textbackslash{}
-         0    1  1100  25860.00   39025.00  HomeImp   Other  10.50   0.00    0.00   
-         1    1  1300  70053.00   68400.00  HomeImp   Other   7.00   0.00    2.00   
-         2    1  1500  13500.00   16700.00  HomeImp   Other   4.00   0.00    0.00   
-         3    1  1500  73756.45  258073.79      NaN     NaN   8.92   0.26    0.45   
-         4    0  1700  97800.00  112000.00  HomeImp  Office   3.00   0.00    0.00   
-         
-             CLAGE  NINQ   CLNO  DEBTINC  
-         0   94.37  1.00   9.00    35.19  
-         1  121.83  0.00  14.00    35.19  
-         2  149.47  1.00  10.00    35.19  
-         3  179.74  1.24  21.29    35.19  
-         4   93.33  0.00  14.00    35.19  
+{\color{outcolor}Out[{\color{outcolor}47}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x15d28174160>
 \end{Verbatim}
             
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_4_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}48}]:} \PY{c+c1}{\PYZsh{} Try to normazise some variable in the dataset}
+         \PY{n}{normalizeDataset}\PY{p}{(}\PY{n}{hmeq\PYZus{}prepared}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LOAN}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{JOB}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{REASON}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MORTDUE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{VALUE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YOJ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DEROG}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DELINQ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CLAGE}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NINQ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CLNO}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DEBTINC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}49}]:} \PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pearson}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}:.2\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{background\PYZus{}gradient}\PY{p}{(}\PY{n}{cmap}\PY{o}{=}\PY{n}{plt}\PY{o}{.}\PY{n}{get\PYZus{}cmap}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coolwarm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}49}]:} <pandas.io.formats.style.Styler at 0x15d282d6668>
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}50}]:} \PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}50}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x15d2816cb70>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_7_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}51}]:} \PY{c+c1}{\PYZsh{} Saving the prepared hmeq to new csv file called hmeq\PYZus{}prepared.csv}
+         \PY{n}{hmeq\PYZus{}prepared}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hmeq\PYZus{}prepared.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{encoding}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+
+
 
     % Add a bibliography block to the postdoc
     
